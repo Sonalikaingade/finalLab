@@ -72,7 +72,7 @@ int main()
     ofstream out("cluster_output.csv");
 
     // Write the header for the output CSV file
-    out << " , p1 ,p2 ,p3 ,p4,C";
+    out << " , p1 ,p2 ,p3 ,p4,p5,C";
     out << "\n";
 
     // Calculate the distances between all pairs of points
@@ -143,7 +143,7 @@ int main()
     out << "\n";
 
     // New Center Calculation
-    out << " , p1 ,p2 ,p3 ,p4";
+    out << " , p1 ,p2 ,p3 ,p4,p5";
     out << "\n";
 
     for (int i = 0; i < v.size(); i++)
@@ -186,9 +186,9 @@ int main()
 
         out << d << ",";
 
-        if (i == v.size() - 1)
-            out << "0"
-                << ",";
+        // if (i == v.size() - 1)
+        //     out << "0"
+        //         << ",";
     }
 
     cout << "Results have been written to 'cluster_output.csv'." << endl;

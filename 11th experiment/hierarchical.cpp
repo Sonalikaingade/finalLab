@@ -15,7 +15,7 @@ string agglomerative(string input)
     string line;
     getline(file, line);
 
-    int pt = 0;
+    double pt = 0;
     stringstream st(line);
 
     int i = 0;
@@ -40,7 +40,7 @@ string agglomerative(string input)
         getline(str, point, ',');
 
         string dist;
-        int idx = 0;
+        double idx = 0;
 
         while (getline(str, dist, ','))
         {
@@ -52,7 +52,7 @@ string agglomerative(string input)
     }
 
     string pt1, pt2;
-    int min_dist = INT_MAX;
+    double min_dist = INT_MAX;
 
     // Find the two points with the minimum distance
     for (auto p : dm)
@@ -60,7 +60,7 @@ string agglomerative(string input)
         for (auto pp : p.second)
         {
             string p1 = p.first, p2 = pp.first;
-            int dist = pp.second;
+            double dist = pp.second;
 
             if (p1 != p2 && dist < min_dist)
             {
@@ -75,7 +75,7 @@ string agglomerative(string input)
 
     string up, down;
 
-    // Determine the order of the two points based on their names
+    // Determine the order of the two podoubles based on their names
     if (pt1[0] > pt2[0])
     {
         up = pt2;
@@ -174,7 +174,7 @@ int main()
     string line;
     getline(file1, line);
 
-    int pt = 0;
+    double pt = 0;
     stringstream st(line);
 
     int j = 0, len = 0;

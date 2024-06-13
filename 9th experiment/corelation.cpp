@@ -71,11 +71,20 @@ void writeCorrelationCoefficient(const string &filename, float corr_coeff)
 
 int main()
 {
-    string inputFileName = "correlation_input.csv";
-    string outputFileName = "correlation_output.csv";
+    string inputFileName = "inputfile.csv";
+    string outputFileName = "outputfile.csv";
 
     vector<int> a = readData(inputFileName);
     vector<int> b = readData(inputFileName);
+    for (int i = 0; i < a.size(); i++)
+    {
+        cout << a[i] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < b.size(); i++)
+    {
+        cout << b[i] << " ";
+    }
 
     float corr_coeff = calculateCorrelationCoefficient(a, b);
 

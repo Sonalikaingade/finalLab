@@ -1,4 +1,5 @@
-1,3,4
-2,3,5
-1,2,3,5
-2,5
+Apple, Cup, Door, Egg
+Book, Cup, Egg
+Apple, Book, Door
+Cup, Door, Egg
+Cup, Fry

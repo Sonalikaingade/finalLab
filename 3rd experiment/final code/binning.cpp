@@ -50,7 +50,10 @@ vector<vector<int>>equi_width(vector<int> data,int m)
     {
         arr.push_back(min1+w*i);
     }
-
+    for(int i=0;i<arr.size();i++)
+    {
+      cout<<arr[i]<<" ";
+    }
     vector<vector<int>> arri;
 
     for(int i=0;i<m;i++)

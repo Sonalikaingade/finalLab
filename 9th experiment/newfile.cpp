@@ -1,85 +1,69 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-double correlation(vector<int> d1, vector<int> d2)
+double find_corelation(vector<double> x, vector<double> y)
 {
-    double pos1=0, pos2=0, pos1_and_pos2=0, ans=0;
+    double n = x.size();
+    int x_yes_count = 0;
+    int y_yes_count = 0;
+    int xy_yes_count = 0;
 
-    int n= d1.size();
-    for(int i=0; i<n; i++)
+    for (int i = 0; i < n; i++)
     {
-        if( d1[i]==1 && d2[i]==1)
-        pos1_and_pos2++;
-        if( d1[i]==1)
-        pos1++;
-        if(d2[i]==1)
-        pos2++;
+        if (x[i] == 1)
+        {
+            x_yes_count++;
+        }
+        if (y[i] == 1)
+        {
+            y_yes_count++;
+        }
+        if (x[i] == 1 && y[i] == 1)
+        {
+            xy_yes_count++;
+        }
     }
 
-    pos1_and_pos2 /= n;
-    pos1/=n;
-    pos2/=n;
-
-    ans= (pos1_and_pos2/(pos1*pos2) );
-
+    double ans = (xy_yes_count / n) / ((x_yes_count / n) * (y_yes_count / n));
     return ans;
 }
 
-
 int main()
-{   
-
-    ifstream inputfile("exp_9_inputfile.csv", ios::in);
-    
-    int line_number=0;
-    string line, count;
-    vector<vector<int>>dataset;
-
-    while(getline(inputfile, line))
+{
+    vector<vector<double>> data;
+    ifstream input("inputfile.csv");
+    string line;
+    while (getline(input, line))
     {
-        vector<int> v;
-        if(line_number==0)
-        {
-            line_number++;
-            continue;
-        }
+        vector<double> d;
         stringstream str(line);
-        string s="";
-        while(getline(str, s, ','))
+        string s;
+        while (getline(str, s, ','))
         {
-            v.push_back(stoi(s)) ;
+            d.push_back(stod(s));
         }
-        dataset.push_back(v);
+        data.push_back(d);
     }
-
-    for(auto vect: dataset)
+    ofstream output("outputfile.csv");
+    output << "Corelation," << "Value," << "Analysis" << endl;
+    for (int i = 0; i < data.size() - 1; i++)
     {
-        for(int i=0; i<vect.size(); i++)
+        for (int j = i + 1; j < data.size(); j++)
         {
-            cout<<vect[i]<<" ";
-        }
-        cout<<endl;
-    }
-    
-    
-    ofstream outputfile("exp_9_outputfile.csv", ios::out);
-
-
-    for(int i=0; i<dataset.size()-1; i++)
-    {
-        double val=0;
-        for(int j=i+1; j<dataset.size(); j++)
-        {
-            val= correlation(dataset[i], dataset[j]) ;
-            if( val>1)
-            outputfile<<"vector "<<i+1<<" and vector "<<j+1<<" are positively correlated: "<<val<<endl;
-            else if( val<1)
-            outputfile<<"vector "<<i+1<<" and vector "<<j+1<<" are negatively correlated: "<<val<<endl;
-            else if( val==1)
-            outputfile<<"vector "<<i+1<<" and vector "<<j+1<<" are independent of each other: "<<val<<endl;
+            double corelation = find_corelation(data[i], data[j]);
+            output << i + 1 << " " << j + 1 << "," << corelation << ",";
+            if (corelation > 1)
+            {
+                output << "Positive Correlation" << endl;
+            }
+            else if (corelation == 1)
+            {
+                output << "Independent" << endl;
+            }
+            else
+            {
+                output << "Negative Corelation" << endl;
+            }
         }
     }
-    
-    
-    return 0;
 }

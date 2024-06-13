@@ -1,73 +1,80 @@
-#include <iostream>
-#include<fstream>
-#include<sstream>
-#include <cmath>
-#include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-// Function to calculate mean of a vector
-double mean(const vector<double>& data) {
-    double sum = 0;
-    for (double value : data) {
-        sum += value;
+// Function to calculate mean
+double mean(vector<double> data, int n)
+{
+    double sum = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        sum += data[i];
     }
-    return sum / data.size();
+    return sum / n;
 }
 
-// Function to calculate standard deviation of a vector
-double standardDeviation(const vector<double>& data) {
-    double meanValue = mean(data);
-    double sumSquaredDifferences = 0;
-
-    for (double value : data) {
-        sumSquaredDifferences += pow(value - meanValue, 2);
+// Function to calculate standard deviation
+double standardDeviation(vector<double> data, int n, int mean)
+{
+    double variance = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        variance += (data[i] - mean) * (data[i] - mean);
     }
-
-    return sqrt(sumSquaredDifferences / (data.size() - 1));
+    return sqrt(variance / (n - 1));
 }
 
-// Function to calculate correlation coefficient
-float correlationCoefficient(const vector<double>& a, const vector<double>& b,int n) {
-    double meanA = mean(a);
-    double meanB = mean(b);
-    double sigmaA = standardDeviation(a);
-    double sigmaB = standardDeviation(b);
+// Function to calculate correlation using formula
+double calculateCorrelation(vector<double> x, vector<double> y, int n)
+{
+    double meanX = mean(x, n);
+    double meanY = mean(y, n);
+    double sdX = standardDeviation(x, n, meanX);
+    double sdY = standardDeviation(y, n, meanY);
 
-    float numerator = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        numerator += (a[i] - meanA) * (b[i] - meanB);
+    double covariance = 0.0;
+    for (int i = 0; i < n; ++i)
+    {
+        covariance += (x[i] - meanX) * (y[i] - meanY);
     }
 
-    return numerator / ((n-1)*(sigmaA * sigmaB));
+    return covariance / ((n - 1) * sdX * sdY);
 }
 
-int main() {
-    // Example data
-   vector<double>x;
-   vector<double>y;
+int main()
+{
+    vector<double> x;
+    vector<double> y;
 
-   ifstream input("input.csv");
-   string line;
-   while(getline(input, line)){
-    stringstream str(line);
-    string x_val, y_val;
-     getline(str,x_val,',');
-     getline(str,y_val);
+    ifstream input("correlation_input.csv");
+    string line;
+    while (getline(input, line))
+    {
+        stringstream str(line);
+        string x_val, y_val;
+        getline(str, x_val, ',');
+        getline(str, y_val);
 
-    int a=stoi(x_val);
-    int b=stoi(y_val);
-     x.push_back(a);
-     y.push_back(b);}
+        x.push_back(stod(x_val));
+        y.push_back(stod(y_val));
+    }
 
-     int n = x.size();
+    int dataSize = x.size();
+    for (int i = 0; i < dataSize; i++)
+    {
+        cout << x[i] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < dataSize; i++)
+    {
+        cout << y[i] << " ";
+    }
 
-    // Calculate correlation coefficient
-    float gammaAB = correlationCoefficient(x,y,n);
+    // Calculate the correlation coefficient
+    double correlation = calculateCorrelation(x, y, dataSize);
 
-    // Display the result
-    cout << "Correlation Coefficient (Gamma_AB): " << gammaAB << endl;
-    ofstream out("output.csv");
-    out<<gammaAB<<endl;
+    // Output the correlation coefficient
+    cout << "Correlation Coefficient: " << correlation << std::endl;
+
     return 0;
 }
